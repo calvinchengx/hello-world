@@ -1,0 +1,33 @@
+# Third-party Hello World plugin (com.calvinx.hello-world).
+#
+# Built for wasm32-unknown-unknown, then turned into a component with
+# `wasm-tools component new` (see build.sh). The empty [workspace] table makes
+# this its own workspace root.
+#
+# The Rust SDK is vendored from HelloHQ/plugin-sdk sdks/rust at c567a89 until
+# that crate is published. Cargo.lock is committed so a release rebuilds the
+# same bytes. build.sh passes --locked.
+[workspace]
+
+[package]
+name = "hello-world"
+version = "1.0.0"
+edition = "2021"
+publish = false
+license = "Apache-2.0"
+authors = ["Calvin Cheng <calvin@calvinx.com>"]
+repository = "https://github.com/calvinchengx/hello-world"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+hellohq-plugin-sdk = { path = "vendor/hellohq-plugin-sdk" }
+
+[dev-dependencies]
+serde_json = "1"
+
+[profile.release]
+opt-level = "s"
+lto = true
+strip = true
